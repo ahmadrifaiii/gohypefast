@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  hypefast-service:
+    build: .
+    command: ./bin/rest-service
+    depends_on:
+      - hypefast-redis
+    ports:
+      - 9200:8080
+    environment:
+      REDIS_HOST: hypefast-redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
+
+  hypefast-redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6389:6379
+    volumes:
+      - ./tmp/redis/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
